@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Form Request — Outstanding Building</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:   #0a0a0f;
+  --ink2:  #111118;
+  --ink3:  #1a1a24;
+  --red:   #e8192c;
+  --red2:  #ff3347;
+  --gold:  #d4a843;
+  --gold2: #f0c060;
+  --cream: #f5ede0;
+  --cream2:#e8d8c0;
+  --border:rgba(212,168,67,0.18);
+  --txt:   #f0e8d8;
+  --muted: #887a68;
+  --green: #3dba7a;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: var(--ink);
+  color: var(--txt);
+  min-height: 100vh;
+  padding: 24px 16px 48px;
+  position: relative; overflow-x: hidden;
+}
+
+body::before {
+  content:''; position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 80% 50% at 10% 0%, rgba(232,25,44,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 60% at 90% 100%, rgba(212,168,67,0.05) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+
+.bg-deco {
+  position: fixed;
+  right: -20px; bottom: 60px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 180px; font-weight: 700;
+  color: rgba(212,168,67,0.03);
+  pointer-events:none; z-index:0;
+  user-select:none; writing-mode:vertical-rl;
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 480px; margin: 0 auto;
+  animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* ── HEADER ── */
+.form-header { text-align: center; margin-bottom: 28px; padding-top: 8px; }
+.header-icon {
+  width: 64px; height: 64px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--red), #8b0000);
+  border: 2px solid var(--gold);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 28px; margin-bottom: 14px;
+  box-shadow: 0 0 40px rgba(232,25,44,0.25);
+}
+.form-brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px; letter-spacing: 4px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2), var(--cream));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; display: block;
+}
+.form-sub { font-size: 11px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 3px; }
+.form-title { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 2px; color: var(--cream2); margin-top: 12px; }
+
+/* Lokasi pill */
+.lokasi-pill {
+  display: inline-block; margin-top: 10px;
+  background: rgba(232,25,44,0.1);
+  border: 1px solid rgba(232,25,44,0.3);
+  color: var(--red2); font-size: 12px; font-weight: 700;
+  padding: 6px 16px; border-radius: 20px;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.5px;
+  transition: all 0.3s;
+}
+.lokasi-pill.filled {
+  background: rgba(212,168,67,0.12);
+  border-color: rgba(212,168,67,0.3);
+  color: var(--gold2);
+}
+
+/* ── CARD ── */
+.form-card {
+  background: var(--ink2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--red);
+  border-radius: 16px; padding: 24px 20px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  position: relative; overflow: hidden;
+}
+.form-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:1px;
+  background: linear-gradient(90deg, transparent, rgba(212,168,67,0.3), transparent);
+}
+
+/* ── FIELDS ── */
+.fg { margin-bottom: 18px; }
+.fg label {
+  display: block; font-size: 10px; font-weight: 700;
+  color: var(--muted); letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.req { color: var(--red2); margin-left: 2px; }
+
+.fg input, .fg select, .fg textarea {
+  width: 100%; padding: 14px 16px;
+  background: var(--ink3); border: 1px solid rgba(245,237,224,0.08);
+  border-radius: 12px; color: var(--txt);
+  font-family: 'Noto Sans JP', sans-serif; font-size: 14px;
+  outline: none; transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none; appearance: none;
+}
+.fg input:focus, .fg select:focus, .fg textarea:focus {
+  border-color: var(--red); background: rgba(232,25,44,0.04);
+}
+.fg select { cursor: pointer; }
+.fg select option { background: var(--ink2); color: var(--txt); }
+.fg textarea { resize: none; min-height: 100px; line-height: 1.6; }
+.fg input::placeholder, .fg textarea::placeholder { color: var(--muted); opacity: 0.7; }
+
+.char-count { font-size: 10px; color: var(--muted); text-align: right; margin-top: 5px; font-family: 'Space Mono', monospace; }
+.err-msg { color: var(--red2); font-size: 11px; margin-top: 5px; display: none; }
+
+/* Detail lokasi box */
+.detail-box {
+  display: none; margin-top: -10px; margin-bottom: 18px;
+  background: rgba(212,168,67,0.06);
+  border: 1px solid rgba(212,168,67,0.15);
+  border-radius: 10px; padding: 12px 14px;
+  display: none; gap: 10px; align-items: flex-start;
+  animation: fadeUp 0.3s ease;
+}
+.detail-box.show { display: flex; }
+.detail-nama { font-family: 'Bebas Neue', sans-serif; font-size: 14px; letter-spacing: 1px; color: var(--gold2); margin-bottom: 2px; }
+.detail-addr { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+/* Prioritas chips */
+.prio-chips { display: flex; gap: 8px; }
+.prio-chip {
+  flex: 1; padding: 11px 8px; border-radius: 10px;
+  font-size: 12px; font-weight: 700; cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  text-align: center; border: 1px solid;
+  transition: all 0.15s; background: var(--ink3);
+}
+.prio-chip:active { transform: scale(0.95); }
+.prio-normal { border-color: rgba(245,237,224,0.1); color: var(--muted); }
+.prio-normal.sel { background: rgba(74,144,217,0.15); border-color: rgba(74,144,217,0.4); color: #7ab8f5; }
+.prio-mendesak { border-color: rgba(245,237,224,0.1); color: var(--muted); }
+.prio-mendesak.sel { background: rgba(240,192,96,0.15); border-color: rgba(240,192,96,0.4); color: var(--gold2); }
+.prio-darurat { border-color: rgba(245,237,224,0.1); color: var(--muted); }
+.prio-darurat.sel { background: rgba(232,25,44,0.15); border-color: rgba(232,25,44,0.4); color: var(--red2); }
+
+/* Submit button */
+.btn-submit {
+  width: 100%; padding: 16px;
+  background: linear-gradient(135deg, var(--red), #c0101f);
+  border: none; border-radius: 12px;
+  color: white; font-weight: 700;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px; letter-spacing: 3px;
+  cursor: pointer; margin-top: 8px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 24px rgba(232,25,44,0.3);
+  position: relative; overflow: hidden;
+}
+.btn-submit::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), transparent);
+}
+.btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 32px rgba(232,25,44,0.4); }
+.btn-submit:active { transform: scale(0.98); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ── SUCCESS STATE ── */
+.success-wrap {
+  display: none; text-align: center; padding: 32px 16px;
+  animation: fadeUp 0.5s ease;
+}
+.success-circle {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: rgba(61,186,122,0.1); border: 2px solid var(--green);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 36px; margin-bottom: 20px;
+  animation: popIn 0.5s cubic-bezier(0.16,1.5,0.3,1);
+}
+@keyframes popIn {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+.success-wrap h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; letter-spacing: 2px; color: var(--green);
+  margin-bottom: 10px;
+}
+.success-wrap p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+.btn-again {
+  margin-top: 24px; padding: 13px 28px;
+  background: var(--ink3); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--cream2);
+  font-size: 13px; cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: background 0.2s;
+}
+.btn-again:active { background: rgba(212,168,67,0.1); }
+
+/* ── FOOTER ── */
+.form-footer {
+  text-align: center; margin-top: 20px;
+  font-size: 10px; color: var(--muted);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<div class="bg-deco">要求</div>
+
+<div class="wrap">
+  <!-- HEADER -->
+  <div class="form-header">
+    <div class="header-icon">⛩️</div>
+    <span class="form-brand">OUTSTANDING</span>
+    <div class="form-sub">Building Management · JNE Surabaya</div>
+    <div class="form-title">FORM REQUEST PEKERJAAN</div>
+    <div class="lokasi-pill" id="lokasiPill">📍 Pilih Lokasi</div>
+  </div>
+
+  <!-- CARD -->
+  <div class="form-card">
+
+    <!-- FORM STATE -->
+    <div id="formState">
+
+      <!-- LOKASI -->
+      <div class="fg">
+        <label>Lokasi <span class="req">*</span></label>
+        <select id="fLokasi" onchange="onLokasiChange()">
+          <option value="">— Pilih Lokasi —</option>
+          <option>JNE Semambung</option>
+          <option>JNE Tebel</option>
+          <option>JNE Diponegoro</option>
+          <option>JNE Sukomanunggal</option>
+          <option>JNE Sulawesi</option>
+          <option>JNE Kenjeran</option>
+          <option>JNE Lamongan</option>
+          <option>JNE Sampang</option>
+        </select>
+        <div class="err-msg" id="errLokasi">⚠ Lokasi wajib dipilih</div>
+      </div>
+
+      <!-- DETAIL LOKASI -->
+      <div class="detail-box" id="detailBox">
+        <div style="font-size:20px">📍</div>
+        <div>
+          <div class="detail-nama" id="detailNama"></div>
+          <div class="detail-addr" id="detailAddr"></div>
+        </div>
+      </div>
+
+      <!-- KATEGORI -->
+      <div class="fg">
+        <label>Kategori Pekerjaan <span class="req">*</span></label>
+        <select id="fKategori">
+          <option value="">— Pilih Kategori —</option>
+          <option>Instalasi Listrik</option>
+          <option>Plumbing / Air</option>
+          <option>AC / Pendingin</option>
+          <option>Genset</option>
+          <option>APAR</option>
+          <option>Sipil / Bangunan</option>
+          <option>Kebersihan</option>
+          <option>Keamanan / CCTV</option>
+          <option>Peralatan Kantor</option>
+          <option>Kendaraan / Armada</option>
+          <option>Lainnya</option>
+        </select>
+        <div class="err-msg" id="errKategori">⚠ Kategori wajib dipilih</div>
+      </div>
+
+      <!-- URAIAN -->
+      <div class="fg">
+        <label>Uraian Pekerjaan <span class="req">*</span></label>
+        <textarea id="fUraian"
+          placeholder="Jelaskan detail pekerjaan yang perlu dilakukan..."
+          maxlength="300"
+          oninput="document.getElementById('charCount').textContent=this.value.length"></textarea>
+        <div class="char-count"><span id="charCount">0</span> / 300</div>
+        <div class="err-msg" id="errUraian">⚠ Uraian pekerjaan wajib diisi</div>
+      </div>
+
+      <!-- PELAPOR -->
+      <div class="fg">
+        <label>Nama Pelapor <span class="req">*</span></label>
+        <input type="text" id="fPelapor" placeholder="Nama lengkap...">
+        <div class="err-msg" id="errPelapor">⚠ Nama pelapor wajib diisi</div>
+      </div>
+
+      <!-- PRIORITAS -->
+      <div class="fg">
+        <label>Tanggal Laporan</label>
+        <input type="text" id="fTglLaporan" readonly style="background:rgba(212,168,67,0.05);border-color:rgba(212,168,67,0.2);color:var(--gold2);cursor:default;font-family:'Space Mono',monospace;font-size:13px">
+        <div style="font-size:10px;color:var(--muted);margin-top:4px">📅 Diisi otomatis saat form dikirim</div>
+      </div>
+
+      <div class="fg">
+        <label>Tingkat Prioritas</label>
+        <div class="prio-chips">
+          <div class="prio-chip prio-normal sel" id="pNormal" onclick="setPrio('Normal')">🔵 Normal</div>
+          <div class="prio-chip prio-mendesak" id="pMendesak" onclick="setPrio('Mendesak')">🟡 Mendesak</div>
+          <div class="prio-chip prio-darurat" id="pDarurat" onclick="setPrio('Darurat')">🔴 Darurat</div>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <button class="btn-submit" id="btnSubmit" onclick="submitForm()">
+        KIRIM REQUEST — 送信
+      </button>
+
+    </div><!-- /formState -->
+
+    <!-- SUCCESS STATE -->
+    <div class="success-wrap" id="successState">
+      <div class="success-circle">✅</div>
+      <h3>REQUEST TERKIRIM!</h3>
+      <p>Pekerjaan telah masuk ke sistem.<br>Tim teknisi akan segera menindaklanjuti.<br><br>
+      <span style="color:var(--gold2);font-weight:700">ありがとう — Terima kasih!</span></p>
+      <button class="btn-again" onclick="resetForm()">＋ Tambah Request Lain</button>
+    </div>
+
+  </div><!-- /form-card -->
+
+  <div class="form-footer">JNE Surabaya · Building Management · © 2026</div>
+</div>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyBIEIwjdMcRH6_GsoSa-onHFOpOh0SCyNM",
+  authDomain: "outstanding-9d27b.firebaseapp.com",
+  databaseURL: "https://outstanding-9d27b-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "outstanding-9d27b",
+  storageBucket: "outstanding-9d27b.firebasestorage.app",
+  messagingSenderId: "789064215529",
+  appId: "1:789064215529:web:15b937800b6603295bb978"
+});
+const db = firebase.database();
+
+const DETAIL = {
+  'JNE Semambung':    'Jl. Semambung, Buduran, Kab. Sidoarjo',
+  'JNE Tebel':        'Jl. Tebel Barat, Gedangan, Kab. Sidoarjo',
+  'JNE Diponegoro':   'Jl. Diponegoro, Tegalsari, Kota Surabaya',
+  'JNE Sukomanunggal':'Jl. Sukomanunggal, Kec. Sukomanunggal, Kota Surabaya',
+  'JNE Sulawesi':     'Jl. Sulawesi, Simokerto, Kota Surabaya',
+  'JNE Kenjeran':     'Jl. Kenjeran, Bulak, Kota Surabaya',
+  'JNE Lamongan':     'Jl. Lamongan Raya, Kab. Lamongan, Jawa Timur',
+  'JNE Sampang':      'Jl. Rajawali, Kab. Sampang, Madura',
+};
+
+let selectedPrio = 'Normal';
+
+// Auto-fill dari URL param
+window.addEventListener('load', () => {
+  // Auto-fill tanggal laporan
+  const now = new Date();
+  const tgl = now.toLocaleDateString('id-ID', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+  const jam = now.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('fTglLaporan').value = tgl + ', ' + jam;
+  const lok = new URLSearchParams(location.search).get('lokasi');
+  if (lok) {
+    const sel = document.getElementById('fLokasi');
+    for (let o of sel.options) { if (o.value === lok) { o.selected = true; break; } }
+    onLokasiChange();
+  }
+});
+
+function onLokasiChange() {
+  const val = document.getElementById('fLokasi').value;
+  const pill = document.getElementById('lokasiPill');
+  const box = document.getElementById('detailBox');
+
+  pill.textContent = val ? '📍 ' + val : '📍 Pilih Lokasi';
+  pill.className = 'lokasi-pill' + (val ? ' filled' : '');
+
+  if (val && DETAIL[val]) {
+    document.getElementById('detailNama').textContent = val;
+    document.getElementById('detailAddr').textContent = DETAIL[val];
+    box.classList.add('show');
+  } else {
+    box.classList.remove('show');
+  }
+}
+
+function setPrio(p) {
+  selectedPrio = p;
+  document.getElementById('pNormal').className   = 'prio-chip prio-normal'   + (p==='Normal'?   ' sel':'');
+  document.getElementById('pMendesak').className = 'prio-chip prio-mendesak' + (p==='Mendesak'? ' sel':'');
+  document.getElementById('pDarurat').className  = 'prio-chip prio-darurat'  + (p==='Darurat'?  ' sel':'');
+}
+
+async function submitForm() {
+  const lokasi   = document.getElementById('fLokasi').value;
+  const kategori = document.getElementById('fKategori').value;
+  const uraian   = document.getElementById('fUraian').value.trim();
+  const pelapor  = document.getElementById('fPelapor').value.trim();
+
+  // Reset errors
+  ['errLokasi','errKategori','errUraian','errPelapor'].forEach(id => document.getElementById(id).style.display='none');
+
+  let valid = true;
+  if (!lokasi)   { document.getElementById('errLokasi').style.display='block';   valid=false; }
+  if (!kategori) { document.getElementById('errKategori').style.display='block'; valid=false; }
+  if (!uraian)   { document.getElementById('errUraian').style.display='block';   valid=false; }
+  if (!pelapor)  { document.getElementById('errPelapor').style.display='block';  valid=false; }
+  if (!valid) return;
+
+  const btn = document.getElementById('btnSubmit');
+  btn.disabled = true;
+  btn.textContent = 'MENGIRIM...';
+
+  try {
+    const tglLaporan = document.getElementById('fTglLaporan').value;
+    await db.ref('outstanding').push({
+      lokasi, kategori, uraian, pelapor,
+      prioritas: selectedPrio,
+      status: 'Belum Dikerjakan',
+      timestamp: Date.now()
+    });
+    document.getElementById('formState').style.display = 'none';
+    document.getElementById('successState').style.display = 'block';
+  } catch(e) {
+    alert('Gagal mengirim. Periksa koneksi internet dan coba lagi.');
+    btn.disabled = false;
+    btn.textContent = 'KIRIM REQUEST — 送信';
+  }
+}
+
+function resetForm() {
+  document.getElementById('fLokasi').value   = '';
+  document.getElementById('fKategori').value = '';
+  document.getElementById('fUraian').value   = '';
+  document.getElementById('fPelapor').value  = '';
+  document.getElementById('charCount').textContent = '0';
+  document.getElementById('lokasiPill').textContent = '📍 Pilih Lokasi';
+  document.getElementById('lokasiPill').className = 'lokasi-pill';
+  document.getElementById('detailBox').classList.remove('show');
+  setPrio('Normal');
+  document.getElementById('btnSubmit').disabled = false;
+  document.getElementById('btnSubmit').textContent = 'KIRIM REQUEST — 送信';
+  // Refresh tanggal
+  const now2 = new Date();
+  const tgl2 = now2.toLocaleDateString('id-ID', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
+  const jam2 = now2.toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'});
+  document.getElementById('fTglLaporan').value = tgl2 + ', ' + jam2;
+  document.getElementById('formState').style.display   = 'block';
+  document.getElementById('successState').style.display = 'none';
+}
+</script>
+</body>
+</html>
